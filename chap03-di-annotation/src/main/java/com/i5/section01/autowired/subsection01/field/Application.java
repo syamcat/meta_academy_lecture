@@ -1,7 +1,8 @@
-package section01.autowired.subsection02.constructor;
+package com.i5.section01.autowired.subsection01.field;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 
 /*
  *   Application.java
@@ -14,9 +15,11 @@ public class Application {
         ApplicationContext context =
                 new AnnotationConfigApplicationContext("com.i5.section01");
 
-        BookService bookService = (BookService) context.getBean("bookServiceConstructor");
+        BookService bookService = (BookService) context.getBean("bookServiceField");
 
         bookService.findAllBooks().forEach(System.out::println);
+
+
 
     }
 }

@@ -1,4 +1,4 @@
-package section01.autowired.subsection03.setter;
+package com.i5.section01.autowired.subsection03.setter;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

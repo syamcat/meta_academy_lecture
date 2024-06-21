@@ -1,4 +1,4 @@
-package section01.autowired.subsection02.constructor;
+package com.i5.section01.autowired.subsection03.setter;
 
 /*
  *   BookService.java
@@ -6,20 +6,20 @@ package section01.autowired.subsection02.constructor;
  *   Created : 24. 6. 20.
  **/
 
+import com.i5.section01.autowired.common.BookDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import section01.autowired.common.BookDAO;
-import section01.autowired.common.BookDTO;
+import com.i5.section01.autowired.common.BookDAO;
 
 import java.util.List;
 
-@Service("bookServiceConstructor")
+@Service("bookServiceSetter")
 public class BookService {
 
-    private final BookDAO bookDAO;
+    private BookDAO bookDAO;
 
     @Autowired
-    public BookService(BookDAO bookDAO) {
+    public void setBookDAO(BookDAO bookDAO) {
         this.bookDAO = bookDAO;
     }
 
@@ -29,6 +29,8 @@ public class BookService {
     }
 
     public BookDTO findBookBySeq(int seq) {
+
         return bookDAO.findBookBySequence(seq);
     }
 }
+

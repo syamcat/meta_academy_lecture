@@ -1,4 +1,4 @@
-package section01.autowired.common;
+package com.i5.section01.autowired.common;
 
 import java.util.Date;
 
