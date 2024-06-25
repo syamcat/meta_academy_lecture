@@ -25,7 +25,7 @@ public class MemberService {
         return memberDAO.findAllMembers();
     }
 
-    public MemberDTO findMemberById( long id) {
+    public MemberDTO findMemberById(Long id) {
         System.out.println("findMemberById()...을 실행했습니다.");
 
         return memberDAO.findMemberById(id);

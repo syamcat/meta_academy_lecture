@@ -21,6 +21,12 @@ dependencies {
     implementation 'org.springframework:spring-aop:6.1.6'
     // https://mvnrepository.com/artifact/org.springframework/spring-expression
     implementation 'org.springframework:spring-expression:6.1.6'
+    // https://mvnrepository.com/artifact/org.aspectj/aspectjweaver
+    implementation 'org.aspectj:aspectjweaver:1.9.19'
+    // https://mvnrepository.com/artifact/org.aspectj/aspectjrt
+    implementation 'org.aspectj:aspectjrt:1.9.19'
+
+
 }
 
 test {
