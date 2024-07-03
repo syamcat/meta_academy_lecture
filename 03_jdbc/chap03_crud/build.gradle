@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm'
 }
 
 group = 'com.i5'
@@ -15,12 +14,8 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     implementation 'mysql:mysql-connector-java:8.0.33'
-
 }
 
 test {
     useJUnitPlatform()
-}
-kotlin {
-    jvmToolchain(17)
 }
