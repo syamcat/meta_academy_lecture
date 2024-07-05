@@ -27,6 +27,8 @@ public class Template {
             Class.forName(driver);
 
             con = DriverManager.getConnection(url, prop);
+
+            // autocommit 비활성화
             con.setAutoCommit(false);
         } catch (SQLException e) {
             throw new RuntimeException(e);
