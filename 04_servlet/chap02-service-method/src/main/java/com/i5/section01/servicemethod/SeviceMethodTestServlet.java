@@ -21,7 +21,17 @@ public class SeviceMethodTestServlet extends HttpServlet {
 
     @Override // http가 안 붙은 서블릿, 제일 먼저 실행
     public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
-        System.out.println("service 메소드 호출");
+        HttpServletRequest request = (HttpServletRequest) req;
+        HttpServletResponse response = (HttpServletResponse) res;
+
+        String HttpMethod = request.getMethod();
+        System.out.println( "http method: " + HttpMethod);
+
+        if("GET".equals(HttpMethod)) {
+            doGet(request, response);
+        } else if("POST".equals(HttpMethod)) {
+            doPost(request, response);
+        }
     }
 
     @Override
