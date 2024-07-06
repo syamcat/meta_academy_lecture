@@ -1,4 +1,4 @@
-package com.i5.model.dto;
+package com.ohgiraffers.model.dto;
 
 /*
  *   MenuDTO.java

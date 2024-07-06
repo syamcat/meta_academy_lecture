@@ -1,4 +1,4 @@
-package com.i5.common;
+package com.ohgiraffers.common;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -20,7 +20,7 @@ public class Template {
 
 
         try {
-            prop.load(new FileReader("src/main/java/com/i5/config/connection-info.properties"));
+            prop.load(new FileReader("src/main/java/com/ohgiraffers/config/connection-info.properties"));
             String driver = prop.getProperty("driver");
             String url = prop.getProperty("url");
 

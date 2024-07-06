@@ -1,10 +1,10 @@
-package com.i5.section01.insert;
+package com.ohgiraffers.section01.insert;
 
-import com.i5.model.dto.MenuDTO;
+import com.ohgiraffers.model.dto.MenuDTO;
 
 import java.sql.Connection;
 
-import static com.i5.common.Template.*;
+import static com.ohgiraffers.common.Template.*;
 
 /*
  *   MenuRegistService.java
