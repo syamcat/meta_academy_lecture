@@ -2,6 +2,8 @@ package com.i5.requestmapping;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -44,5 +46,21 @@ public class MethodMappingTestController {
     *  DELETE     @DeleteMapping
     *  PATCH      @PatchMapping
     * */
+
+    @GetMapping("/menu/delete")
+    public String deleteMenu(Model model) {
+
+        model.addAttribute("message", "GET 방식의 삭제용 핸들러 메소드 호출함...");
+
+        return "mappingResult";
+    }
+
+    @PostMapping("/menu/delete")
+    public String postDeleteMenu(Model model) {
+
+        model.addAttribute("message", "Post 방식의 삭제용 핸들러 메소드 호출함...");
+
+        return "mappingResult";
+    }
 
 }
