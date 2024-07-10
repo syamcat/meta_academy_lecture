@@ -39,7 +39,7 @@ public class SessionHandlerServlet extends HttpServlet {
         session.setAttribute("lastName", lastName);
 
         session.invalidate(); // 세션 만료시킴
-        // 로그아웃 구현 1. 세션 만료시키기 2. 세션에 유저를 null값으로 교체 3. 세션 시간 만료시키기
+        // 로그아웃 구현 1. 세션 만료시키기 2. 세션에 유저정보를 null값으로 교체 3. 세션 시간 만료시키기
 
         resp.sendRedirect("redirect");
     }

@@ -19,11 +19,6 @@ public class FirstFilter implements Filter {
     }
 
     @Override
-    public void destroy() {
-        System.out.println("FirstFilter destroy() 호출...");
-    }
-
-    @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
         // servlet 호출 이전 수행할 내용
@@ -35,4 +30,10 @@ public class FirstFilter implements Filter {
         // servlet 호출 이후 수행할 내용
         System.out.println("Servlet 요청 수행 완료!");
     }
+
+    @Override
+    public void destroy() {
+        System.out.println("FirstFilter destroy() 호출...");
+    }
+
 }
