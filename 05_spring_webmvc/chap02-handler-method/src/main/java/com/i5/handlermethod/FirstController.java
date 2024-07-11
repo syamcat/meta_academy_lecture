@@ -8,10 +8,10 @@ package com.i5.handlermethod;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
+
+import java.util.Map;
 
 @Controller
 @RequestMapping("/first/*")
@@ -39,5 +39,49 @@ public class FirstController {
         model.addAttribute("message", message);
 
         return "first/messagePrinter";
+    }
+
+    @GetMapping("modify")
+    public void modify() {}
+
+    //@RequstParam("html에서 작성한 변수명") 원래는 이렇게 작성해야한다. 다르면 400번 에러가 발생
+    @PostMapping("modify")                // @RequestParam(required = false) == not Null = false
+    public String modifyMenuPrice(Model model, @RequestParam(required = false) String modifyName, @RequestParam(defaultValue = "0") int modifyPrice) {
+
+
+        System.out.println("modifyName: " + modifyName);
+        System.out.println("modifyPrice: " + modifyPrice);
+
+        String message = modifyName  + "메뉴 가격을" + modifyPrice + "원으로 변경하였습니다.";
+
+        model.addAttribute("message", message);
+        return "first/messagePrinter";
+    }
+
+    @PostMapping("modifyAll")                       //Map은 컴파일 에러 없이 런타임 에러만 발생시키므로 사용을 지양할 것
+    public String modifyAll(Model model, @RequestParam Map<String, String> parameters) {
+
+        String modifyName = parameters.get("modifyName2");
+        int modifyPrice = Integer.parseInt(parameters.get("modifyPrice2"));
+
+        String message = "메뉴의 이름을 " + modifyName + "(으)로, 가격을 " +  modifyPrice + "원 으로 변경하였습니다";
+
+        model.addAttribute("message", message);
+
+        return "first/messagePrinter";
+    }
+
+    @GetMapping("search")
+    public void search() {}
+
+    @PostMapping("search")
+    public String searchMenu(@ModelAttribute("menu") MenuDTO menu) {
+        System.out.println(menu);
+        return "first/searchResult";
+    }
+
+    @GetMapping("login")
+    public void login() {
+
     }
 }
