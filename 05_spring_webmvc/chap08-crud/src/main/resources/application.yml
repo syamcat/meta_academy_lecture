@@ -1,0 +1,25 @@
+# application.properties
+#spring.application.name=chap08-crud
+#server.port=8001
+#spring.datasource.url=jdbc:mysql://localhost:3306/menudb
+#spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+#spring.datasource.username=ohgiraffers
+#spring.datasource.password=ohgiraffer
+
+
+## application.yml
+# server port config
+server:
+  port: 8001
+
+# driver config
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/menudb
+    username: ohgiraffers
+    password: ohgiraffer
+
+# mybatis config !!!!
+mybatis:
+  mapper-locations: mappers/**/*.xml
