@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ohgiraffers.section01.xml.DynamicSqlMapper">
+    <resultMap id="menuResultMap" type="com.ohgiraffers.common.MenuDTO">
+        <id property="menuCode" column="MENU_CODE"/>
+        <result property="menuName" column="MENU_NAME"/>
+        <result property="menuPrice" column="MENU_PRICE"/>
+        <result property="categoryCode" column="CATEGORY_CODE"/>
+        <result property="orderableStatus" column="ORDERABLE_STATUS"/>
+    </resultMap>
+
+    <select id="findMenuByPrice" parameterType="hashmap" resultMap="menuResultMap">
+        SELECT /*+ com.ohgiraffers.section01.xml.DynamicSqlMapper#findMenuByPrice() */ <!-- 힌트문 -->
+                A.MENU_CODE
+                ,A.MENU_NAME
+                ,A.MENU_PRICE
+                ,A.CATEGORY_CODE
+                ,A.ORDERABLE_STATUS
+          FROM  TBL_MENU A
+         WHERE  ORDERABLE_STATUS = 'Y' <!-- 선행 조건이 없으면 1 = 1 이런 식으로 써주면 된다.-->
+        <if test="price gt 0 and price lte 10000">
+        <![CDATA[
+            AND A.MENU_PRICE < #{ price }
+        ]]>
+        </if> <!-- '>' => gt, '<' => lt (OGNL 표기법) -->
+        <if test="price gt 10000 and price lte 20000">
+            AND A.MENU_PRICE BETWEEN 10000 AND #{ price }
+        </if>
+        <if test="price gt 20000 and price lte 30000">
+            AND A.MENU_PRICE BETWEEN 20000 AND #{ price }
+        </if>
+        <if test="price gt 30000">
+            AND A.MENU_PRICE BETWEEN 30000 AND #{ price }
+        </if>
+         ORDER BY A.MENU_CODE
+    </select>
+
+    <select id="searchMenu" parameterType="SearchCriteria" resultMap="menuResultMap">
+        SELECT
+                A.MENU_CODE
+                , A.MENU_NAME
+                , A.MENU_PRICE
+                , A.CATEGORY_CODE
+                , A.ORDERABLE_STATUS
+        FROM TBL_MENU A
+        <if test="condition == 'category'">
+            JOIN TBL_CATEGORY B ON (A.CATEGORY_CODE = B.CATEGORY_CODE)
+        </if>
+        WHERE A.ORDERABLE_STATUS = 'Y'
+        <if test="condition == 'name'">
+            AND A.MENU_NAME LIKE CONCAT('%', #{ value }, '%')
+        </if>
+        <if test="condition=='category'">
+            AND B.CATEGORY_NAME = #{ value }
+        </if>
+        ORDER BY A.MENU_CODE
+    </select>
+</mapper>
