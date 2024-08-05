@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.2">
+
+    <persistence-unit name="ohgiraffers">
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.ch.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysqla://localhost:3306/menudb"/>
+            <property name="javax.persistence.jdbc.user" value="ohgiraffers"/>
+            <property name="javax.persistence.jdbc.password" value="ohgiraffers"/>
+            <property name="hibernate.show_sql" value="true"/> <!-- hibernate sql 문 콘솔에 출력 -->
+            <property name="hibernate.format_sql" value="true"/> <!-- sql문 포멧 설정 -->
+        </properties>
+    </persistence-unit>
+</persistence>
