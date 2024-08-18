@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+	<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+	<div id="root"></div>
+	<script type="text/babel">
+
+		const { useState, useEffect } = React;
+
+		function App() {
+			const [keyword, setKeyword] = useState('');
+			const [imageSrc, setImageSrc] = useState('');
+			const [isTrue, setIsTrue] = useState(false);
+
+			const onChangeKeyword = e => setKeyword(e.target.value);
+
+			const callApi = () => {
+				axios.get('https://api.github.com/emojis')
+					.then(res => {
+						// 예시로 'octocat' 이모지를 가져오도록 설정
+						if (res.data[keyword]) {
+							setImageSrc(res.data[keyword]);
+							setIsTrue(true);
+						} else {
+							setIsTrue(false);
+						}
+					})
+					.catch(err => {
+						console.error(err);
+						setIsTrue(false);
+					});
+			}
+
+			const onClickHandler = () => {
+				callApi();
+				setKeyword('');
+			}
+
+			return (
+				<>
+					<span>
+						<input type="text" value={keyword} onChange={onChangeKeyword} />
+						<button onClick={onClickHandler}>API 요청</button>
+					</span>
+					<div>
+						{isTrue && <img src={imageSrc} alt="GitHub Emoji" />}
+					</div>
+				</>
+			);
+		}
+
+		ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+	</script>
+</body>
+
+</html>

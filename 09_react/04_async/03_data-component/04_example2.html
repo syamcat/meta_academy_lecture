@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        .pokemon {
+            margin: 10px;
+            background-color: aquamarine;
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 120px;
+        }
+
+        .container {
+            display: flex;
+            /* flex-wrap: wrap; */
+            justify-content: center;
+        }
+
+        img {
+            width: 80px;
+            height: 80px;
+        }
+
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .search-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .stats {
+            margin-left: 20px;
+        }
+
+        .stats li {
+            list-style: none;
+        }
+
+        ul {
+            padding-left: 0;
+        }
+
+        li {
+            list-style-type: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function Title() {
+            return <h1>포켓몬 도감</h1>;
+        }
+
+
+        function Status({ stats }) {
+            return (
+                <ul className="stats">
+                    {stats.filter(stat => 
+                        ['hp', 'attack', 'defense'].includes(stat.stat.name))
+                            .map(stat => (
+                                <li key={stat.stat.name}>
+                                    {stat.stat.name}: {stat.base_stat}
+                                </li>
+                            )
+                    )}
+                </ul>
+            );
+        }
+
+        function Pokemon({ pokemon }) {
+            return (
+                <li className="pokemon">
+                    <div>
+                        <h4>{pokemon.name}</h4>
+                        <img src={pokemon.sprites.other["official-artwork"].front_default} alt={pokemon.name}/>
+                    </div>
+                    <Status stats={pokemon.stats}/>
+                </li>
+            );
+        }
+
+        function PokemonList({ pokemons }) {
+            return (
+                <ul className="container">
+                    {pokemons.map(pokemon => (
+                        <Pokemon key={pokemon.id} pokemon={pokemon}/>
+                    ))}
+                </ul>
+            );
+        }
+
+        function App() {
+            const [pokemons, setPokemons] = useState([]);
+            const [page, setPage] = useState(1);
+            const [keyword, setKeyword] = useState('');
+            const [isSearching, setIsSearching] = useState(false);
+
+            const onClickSearchHandler = () => {
+                if (keyword) {
+                    setIsSearching(true);
+                    fetch(`https://pokeapi.co/api/v2/pokemon/${keyword.toLowerCase()}`)
+                        .then(response => response.json())
+                        .then(info => setPokemons([info]))
+                        .catch(err => {
+                            alert('포켓몬을 찾을 수 없습니다.');
+                            setIsSearching(false);
+                        });
+                } else {
+                    setIsSearching(false);
+                    setPage(1);
+                }
+            };
+
+            const onClickPageHandler = (newPage) => {
+                setIsSearching(false);
+                setPage(newPage);
+            };
+
+            useEffect(() => {
+                if (!isSearching) { // 검색어가 존재하지 않으면
+					const offset = (page - 1) * 5;  // 5 마리씩 출력
+                    fetch(`https://pokeapi.co/api/v2/pokemon?limit=5&offset=${offset}`) // api 호출
+                        .then(response => response.json())
+                        .then(info => {
+                            const pokemonPromises = info.results.map(pokemon => fetch(pokemon.url).then(res => res.json()));
+                            Promise.all(pokemonPromises).then(results => setPokemons(results));
+                        });
+                }
+            });
+
+            return (
+                <>
+                    <Title/>
+                    <div className="search-container">
+                        <label>검색 : </label>
+                        <input
+                            type="text"
+                            placeholder="이름 또는 id를 입력하세요"
+                            value={keyword}
+                            onChange={(e) => setKeyword(e.target.value)}
+                        />
+                        <button onClick={onClickSearchHandler}>검색</button>
+                    </div>
+                    <PokemonList pokemons={pokemons}/>
+                    {!isSearching && (
+                        <div className="pagination">
+                            <button onClick={() => onClickPageHandler(page - 1)} disabled={page == 1}>이전</button>
+                            <span> {page} </span>
+                            <button onClick={() => onClickPageHandler(page + 1)}>다음</button>
+                        </div>
+                    )}
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+    </script>
+</body>
+
+</html>
